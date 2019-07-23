@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!-- map content -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+	<!-- map content -->
+
+	<!-- menu -->
+	<link href="{{ url_for('static', filename='menuTab/menuTab.css') }}" rel="stylesheet">
+	
+	<script type="text/javascript">
+	function loadTab(obj,n){
+		var layer;
+		eval('layer=\'S'+n+'\'');
+
+		//將 Tab 標籤樣式設成 Blur 型態
+		var tabsF=document.getElementById('tabsF').getElementsByTagName('li');
+		for (var i=0;i<tabsF.length;i++){
+			tabsF[i].setAttribute('id',null);
+			eval('document.getElementById(\'S'+(i+1)+'\').style.display=\'none\'')
+		}
+
+		//變更分頁標題樣式
+		obj.parentNode.setAttribute('id','current');
+		document.getElementById(layer).style.display='inline';
+
+	}
+	</script>
+	<!-- menu -->
+
+  <meta charset="utf-8">
+  <title>HouseMap</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='img/favicon.png') }}" rel="icon">
+  <link href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="{{ url_for('static', filename='lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+  <!-- =======================================================
+    Template Name: Instant
+    Template URL: https://templatemag.com/instant-bootstrap-personal-template/
+    Author: TemplateMag.com
+    License: https://templatemag.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+
+  <!-- Static navbar -->
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        <a class="navbar-brand" href="/">HouseMap</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="{{ url_for('static', filename='about.html') }}">About</a></li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+
+
+  <div id="headerwrap">
+    <div class="container">
+      <div class="row">
+		
+      </div>
+    </div>
+  </div>
+  
+	<!-- 	menu tab	 -->
+	<div class="container">
+	<div class="row centered mt mb">
+		<div class="col-sm-12">
+		<div id="tabsF">
+			<ul>
+				<li id="current"><a href="javascript://" onclick="loadTab(this,1);"><span>全市月指數</span></a></li>
+				<li style="background-color:#555555;"><a href="javascript://" onclick="loadTab(this,2);"><span>交易量分析</span></a></li>
+				<li><a href="javascript://" onclick="loadTab(this,3);"><span>大安 - 月指數</span></a></li>
+				<li><a href="javascript://" onclick="loadTab(this,4);"><span>中山 - 月指數</span></a></li>
+				<li><a href="javascript://" onclick="loadTab(this,5);"><span>士林 - 月指數</span></a></li>
+				<li><a href="javascript://" onclick="loadTab(this,6);"><span>萬華 - 月指數</span></a></li>
+			</ul>
+		</div>
+		
+		<div id="tabsC">
+			<div id="S1" style="display:inline;"> &nbsp <br>
+				台北市 - 全市月指數走勢圖<br>
+				<img src="{{ url_for('static', filename='img/月指數/全市.png') }}">
+				
+			</div>
+			<div id="S2" style="display:none;"> &nbsp <br>
+				台北市各區交易房屋圓餅圖<br>
+				<div align="center" class="chart" id="bargraph">
+					<script>
+						var graphs = {{ plot | safe}};
+						Plotly.plot('bargraph', graphs, {});
+					</script>
+				</div>
+			</div>
+
+			<div id="S3" style="display:none;"> &nbsp <br>
+				大安信義中正區 - 月指數走勢圖<br>
+				<img src="{{ url_for('static', filename='img/月指數/大安信義中正.png') }}">
+				
+			</div>
+			<div id="S4" style="display:none;"> &nbsp <br>
+				中山松山南港區 - 月指數走勢圖<br>
+				<img src="{{ url_for('static', filename='img/月指數/中山松山南港.png') }}">
+				
+			</div>
+			<div id="S5" style="display:none;"> &nbsp <br>
+				士林內湖大同區 - 月指數走勢圖<br>
+				<img src="{{ url_for('static', filename='img/月指數/士林內湖大同.png') }}">
+				
+			</div>
+			<div id="S6" style="display:none;"> &nbsp <br>
+				萬華文山北投區 - 月指數走勢圖<br>
+				<img src="{{ url_for('static', filename='img/月指數/萬華文山北投.png') }}">
+				
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+	<!-- 	menu tab	 -->
+		
+		
+	<!-- /container -->
+	
+	<div class="container">
+	<div class="row">
+		<!-- 	filter &  house_info		 -->
+		<div class="col-md-9 col-md-4">
+			<div style="width:30px; height:30px;">
+				<p> &nbsp </p>
+			</div>
+			<!-- 	filter form			-->
+			<div>  <!-- for filter form -->
+			<form method="POST" action="http://127.0.0.1:5000/">
+				<div class="form-group">
+						<label for="districtSelect">行政區</label>
+						<select class="custom-select mr-sm-2" id="districtSelect" name="districtSelect">
+							{% for user in users %}
+							<option value="{{user}}">{{user}}</option>
+							{% endfor %}
+						</select>
+						<br>
+						<br>
+						<label>金額</label>
+						<input type="text" id="price_low_input" name="price_low_input" value="0">
+						<label> ~ </label>
+						<input type="text" id="price_high_input" name="price_high_input" value="15000000">
+						<br>
+						<br>
+						<label>格局 房:</label>
+						<select class="custom-select mr-sm-2" id="room_count_low_select" name="room_count_low_select">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>
+						<label>廳:</label>
+						<select class="custom-select mr-sm-2" id="hall_count_low_select" name="hall_count_low_select">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select>
+						<label>衛:</label>
+						<select class="custom-select mr-sm-2" id="bath_count_low_select" name="bath_count_low_select">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+						</select>
+						<br>
+						<br>
+					<div align="right">
+						<button type="submit" class="btn btn-primary">找房屋</button>
+					</div>
+				</div>
+				
+			</form>
+			</div>  <!-- for filter form -->
+			<!-- 	filter form			-->
+			<br>
+			<!-- 	house_info			-->
+			<div style="width:350px;height:300px;">  <!-- for house_info -->
+				<body>
+					<ul class="nav nav-tabs">
+						<li class="active" align="center" style="width: 350px;"><p><strong>房屋資訊</strong></p></li>
+						
+						
+					</ul>
+					<div class="tab-content" style="background-color:#EEEEEE; border-radius:10px; width:350px;height:200px;overflow-y:scroll">
+							<table class="table .table-sm"  >
+							<tbody id="houseinfo">
+	
+							</tbody>
+	
+						</table>
+				</div>
+			</body>
+				
+			</div>  <!-- for house_info -->
+			<!-- 	house_info			-->
+		</div>
+		<!-- 	filter &  house_info		 -->
+		
+		
+		<!-- map content -->
+		<div class="col-md-3 col-md-8">
+			<div class="chart" id="mapgraph">
+				<script>
+					var graphs = {{ map | safe}};
+					Plotly.plot('mapgraph', graphs, {});
+					document.getElementById('mapgraph').on('plotly_click',data=>{
+						$('#houseinfo').empty();
+						var d = data.points[0].text.split('<br />');
+						console.log(data.points[0].text);
+						var label = [];
+						var content = [];
+						for(let i of d){
+							let t = i.split('：');
+							label.push(t[0]);
+							content.push(t[1]);
+						}
+						let table = '';
+						for(let i = 0;i<label.length;++i){
+							table += `
+							<tr>
+								<th scope="row">${label[i]}</th>
+								<td>${content[i]}</td>
+							<tr>
+							`
+						}
+						
+						$('#houseinfo').append(table);
+					})
+				</script>
+
+			</div>
+		</div>
+		<!-- map content -->
+	
+	</div>
+    </div>
+	
+	<!-- /container -->
+	
+	<!-- / copyrights -->
+  <div id="copyrights">
+    <div class="container">
+      <p>
+        &copy; Copyrights <strong>HouseMap</strong> 2019. All Rights Reserved
+      </p>
+      <div class="credits">
+        <!--
+          You are NOT allowed to delete the credit link to TemplateMag with free version.
+          You can delete the credit link only if you bought the pro version.
+          Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/instant-bootstrap-personal-template/
+          Licensing information: https://templatemag.com/license/
+        -->
+        Created with Instant template by <a href="https://templatemag.com/">TemplateMag</a>
+      </div>
+    </div>
+  </div>
+	<!-- / copyrights -->
+
+  <!-- JavaScript Libraries -->
+  <script src="{{ url_for('static', filename='lib/jquery/jquery.min.js') }}" ""></script>
+  <script src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='lib/php-mail-form/validate.js') }}"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>

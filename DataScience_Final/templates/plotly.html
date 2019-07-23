@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+
+<head>
+    <title>Map Test</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+                <div class="col-sm-3">
+                        <form method="POST" action="http://127.0.0.1:5000/">
+                            <div class="form-group">
+                                    <label for="districtSelect">行政區</label>
+                                    <select class="custom-select mr-sm-2" id="districtSelect" name="districtSelect">
+                                        {% for user in users %}
+                                        <option value="{{user}}">{{user}}</option>
+                                        {% endfor %}
+                                    </select>
+									<br>
+									<br>
+									<label>金額</label>
+									<input type="text" id="price_low_input" name="price_low_input" value="0">
+									<label> ~ </label>
+									<input type="text" id="price_high_input" name="price_high_input" value="15000000">
+									<br>
+									<br>
+									<label>格局 房:</label>
+									<select class="custom-select mr-sm-2" id="room_count_low_select" name="room_count_low_select">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+										<option value="3">3</option>
+                                        <option value="4">4</option>
+										<option value="5">5</option>
+                                        <option value="6">6</option>
+										<option value="7">7</option>
+                                        <option value="8">8</option>
+										<option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+									<label>廳:</label>
+									<select class="custom-select mr-sm-2" id="hall_count_low_select" name="hall_count_low_select">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+										<option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+									<label>衛:</label>
+									<select class="custom-select mr-sm-2" id="bath_count_low_select" name="bath_count_low_select">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+										<option value="3">3</option>
+                                        <option value="4">4</option>
+										<option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+									<br>
+									<br>
+        
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                            
+                        </form>
+                    </div>
+            
+                
+
+        </div>
+        <div class="row">
+                <div class="col-sm-6">
+                        <div class="chart" id="bargraph">
+                            <script>
+                                var graphs = {{ plot | safe}};
+                                Plotly.plot('bargraph', graphs, {});
+                            </script>
+        
+                        </div>
+                    </div>
+        </div>
+        <div class="row">
+                <div class="col-sm-3">
+                        <div class="chart" id="mapgraph">
+                            <script>
+                                var graphs = {{ map | safe}};
+                                Plotly.plot('mapgraph', graphs, {});
+                            </script>
+    
+                        </div>
+                    </div>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
