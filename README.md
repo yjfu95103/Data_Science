@@ -1,6 +1,6 @@
 # Data_Science
 
- git https://github.com/yjfu95103/Data_Science.git  
+ git clone https://github.com/yjfu95103/Data_Science.git  
  python ./DataScience_Final/app.py
 
 
